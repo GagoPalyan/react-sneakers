@@ -59,3 +59,5 @@ function Drawer() {
     </div>
   );
 }
+
+export default Drawer;
