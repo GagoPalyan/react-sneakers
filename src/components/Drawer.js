@@ -1,43 +1,40 @@
-function Drawer() {
+function Drawer({ onCloseCart, items = [] }) {
   return (
-    <div style={{ display: "none" }} className="overlay">
+    <div className="overlay">
       <div className="drawer">
         <h2 className="mb-30 d-flex justify-between">
-          Basket <img className="cu-p" src="/img/btn-remove.svg" alt="Remove" />
+          Basket
+          <img
+            className="cu-p"
+            onClick={onCloseCart}
+            src="/img/btn-remove.svg"
+            alt="Close"
+          />
         </h2>
 
         <div className="items">
-          <div className="cartItem d-flex align-center mb-20">
-            <div
-              style={{
-                backgroundImage:
-                  "url(https://cdn.shopify.com/s/files/1/0049/9112/products/JordanBrandAIRJORDAN1RETROHIOGVARSITYMAIZEGAMEROYAL-SAIL7FD2596-700_1_2048x2048.jpg?v=1682086199)",
-              }}
-              className="cartItemImg"
-            ></div>
+          {items.map((obj) => (
+            <div className="cartItem d-flex align-center mb-20">
+              <div
+                style={{
+                  backgroundImage: `url(${obj.imageUrl})`,
+                }}
+                className="cartItemImg"
+              ></div>
 
-            <div className="mr-20 flex">
-              <p className="mr-5">WOMEN'S AIR JORDAN 1 RETRO HI OG</p>
-              <b>180.00$</b>
+              <div className="mr-20 flex">
+                <p className="mr-5">{obj.title}</p>
+                <b>{obj.price}.00USD</b>
+              </div>
+              <img
+                className="removeBtn"
+                src="/img/btn-remove.svg"
+                alt="Remove"
+              />
             </div>
-            <img className="removeBtn" src="/img/btn-remove.svg" alt="Remove" />
-          </div>
-          <div className="cartItem d-flex align-center mb-20">
-            <div
-              style={{
-                backgroundImage:
-                  "url(https://cdn.shopify.com/s/files/1/0049/9112/products/JordanBrandAIRJORDAN1RETROHIOGVARSITYMAIZEGAMEROYAL-SAIL7FD2596-700_1_2048x2048.jpg?v=1682086199)",
-              }}
-              className="cartItemImg"
-            ></div>
-
-            <div className="mr-20 flex">
-              <p className="mr-5">WOMEN'S AIR JORDAN 1 RETRO HI OG</p>
-              <b>180.00$</b>
-            </div>
-            <img className="removeBtn" src="/img/btn-remove.svg" alt="Remove" />
-          </div>
+          ))}
         </div>
+
         <div className="cartTotalBlock">
           <ul>
             <li>

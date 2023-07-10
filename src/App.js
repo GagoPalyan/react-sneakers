@@ -1,12 +1,33 @@
 import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [items, setItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [cartOpened, setCartOpened] = useState(false);
+
+  useEffect(() => {
+    fetch("https://64a9d6c58b9afaf4844b1aa4.mockapi.io/items")
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        setItems(json);
+      });
+  }, []);
+
+  const onAddToCart = (obj) => {
+    setCartItems((prev) => [...prev, obj]);
+  };
+
   return (
     <div className="wrapper clear">
-      <Drawer />
-      <Header />
+      {cartOpened && (
+        <Drawer items={cartItems} onCloseCart={() => setCartOpened(false)} />
+      )}
+      <Header onClickCart={() => setCartOpened(true)} />
       <div className="content p-40">
         <div className="mb-40 d-flex justify-between align-center">
           <h1>All sneakers</h1>
@@ -16,27 +37,16 @@ function App() {
           </div>
         </div>
 
-        <div className="d-flex">
-          {Card(
-            "https://cdn.shopify.com/s/files/1/0049/9112/products/JordanBrandAIRJORDAN1RETROHIOGVARSITYMAIZEGAMEROYAL-SAIL7FD2596-700_1_2048x2048.jpg?v=1682086199",
-            "WOMEN'S AIR JORDAN 1 RETRO HI OG",
-            "180.00"
-          )}
-          {Card(
-            "https://cdn.shopify.com/s/files/1/0049/9112/products/JordanBrandWAIRJORDAN1RETROHIGHMEDIUMGREYBLACK-WHITE5DZ2523-001_1_2048x2048.jpg?v=1671721422",
-            "WOMEN'S AIR JORDAN 1 RETRO HIGH",
-            "144.00"
-          )}
-          {Card(
-            "https://cdn.shopify.com/s/files/1/0049/9112/products/JordanBrandWMNSAIRJORDAN2RETROWHTEVRSTYRED-BLK6.5DX4400-106_1_2048x2048.jpg?v=1672412632",
-            "WOMEN'S AIR JORDAN 2 RETRO",
-            "160.00"
-          )}
-          {Card(
-            "https://cdn.shopify.com/s/files/1/0049/9112/products/JordanBrandWMNSAIRJORDAN6RETROWHITEPUREPLATINUM-MINTFOAM6DQ4914-103_1_2048x2048.jpg?v=1670435330",
-            "WOMEN'S AIR JORDAN 6 RETR",
-            "200.00"
-          )}
+        <div className="d-flex flex-wrap">
+          {items.map((item) => (
+            <Card
+              title={item.title}
+              price={item.price}
+              imageUrl={item.imageUrl}
+              onPlus={(obj) => onAddToCart(obj)}
+              onFavorite={() => console.log("you press on Favorite button")}
+            />
+          ))}
         </div>
       </div>
     </div>
