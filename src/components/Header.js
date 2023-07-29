@@ -1,6 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import AppContext from "../context";
 
 function Header(props) {
+  const { cartItems } = useContext(AppContext);
+  const totalPrice = cartItems.reduce((sum, obj) => obj.price + sum, 0);
+
   return (
     <header className="d-flex justify-between align-center p-40">
       <Link to="/">
@@ -26,7 +31,7 @@ function Header(props) {
             src="https://cdn.icon-icons.com/icons2/1744/PNG/512/3643737-cart-drop-shop-shopping-trolly_113425.png"
             alt="Cart"
           />
-          <span>1250 USD</span>
+          <span>{totalPrice} USD</span>
         </li>
         <li className="mr-20 cu-p">
           <Link to="favorites">
